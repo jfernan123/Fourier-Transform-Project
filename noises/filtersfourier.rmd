@@ -1,0 +1,49 @@
+---
+title: Gaussian Blur Example with cv2
+output:
+    html_document:
+        md_extensions: + definition_lists
+        theme: lumen
+---
+
+
+```{r setup, include = FALSE}
+
+library(reticulate)
+use_python("/usr/bin/python3")
+
+```
+## Image kernels
+[gaussian blur tutorial](https://www.tutorialkart.com/opencv/python/opencv-python-gaussian-image-smoothing/)
+
+```{python}
+
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+
+# load image
+image = cv2.imread('starbunnyy.jpg',cv2.IMREAD_GRAYSCALE)
+
+# show image 2
+plt.imshow(image)
+plt.title("original image")
+plt.show()
+
+
+
+# trying gaussian blur
+filtered = cv2.GaussianBlur(image2,(5,5), 3, 0)
+
+plt.imshow(filtered)
+plt.title('Gaussian Blurred Starbunny')
+plt.show()
+```
+
+
+
+
+
+
+
+
