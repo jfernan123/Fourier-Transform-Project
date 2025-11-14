@@ -14,7 +14,7 @@ def load_ground_truth(mat_path):
     gt_structs = data["groundTruth"][0]
 
     # first annotator boundary map
-    boundary = gt_structs[0]["Boundaries"][0][0]  
+    boundary = gt_structs[0]["Boundaries"][0][0]  #This only loads a single annotator. Further expansion for other annotators (Annotator is people who labeled the image, 5 people labeled the same image)
 
 
     return boundary
