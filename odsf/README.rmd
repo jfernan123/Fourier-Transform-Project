@@ -1,0 +1,41 @@
+---
+title: ODS as maximum F measure
+bibliography: references.bib    
+output:
+    html_document:
+        md_extensions: + definition_lists
+        highlight: zenburn
+---
+
+## Definition
+
+The *Optimal Data Scale* (ODS) is defined as the maximum $F$-value taken over the *PR*-curve.
+
+<details>
+<summary>PR Curve and F measure</summary>
+### Explanation
+
+> Our evaluation measure—the precision-recall curve—is a parametric curve that captures the trade off between accuracy and noise as the detector threshold varies. Precision is the fraction of detections that are true positives rather than false positives, while recall is the fraction of true positives that are detected rather than missed. In probabilistic terms, precision is the probability that the detector's signal is valid, and recall is the probability that the ground truth data was detected.
+>
+> ...
+>
+> The precision and recall measures are particularly meaningful in the context of boundary detection when we consider applications that make use of boundary maps, such as stereo or object recognition. It is reasonable to characterize higher level processing in terms of how much true signal is required to succeed R (recall), and how much noise can be tolerated P (precision). A particular application can define a relative cost \alpha between these quantities, which focuses attention at a specific point on the precision-recall curve. The F-measure @van1979information, defined as
+>
+> $$F = PR/(\alpha R + (1-\alpha)P)$$
+> from @1273918
+
+---
+In the case of our calculations, $\alpha=0.5$, yielding the equation
+$$F = 2PR/(P + R)$$
+a *harmonic* mean of precision and recall.
+</details>
+
+
+## Links
+
+- [Source for pytorch script](https://gist.github.com/JohnnyRacer/6f53b814060d14a20c8259b0d9c9894f/revisions)
+- [Torchmetrics Documentation on PR Curve](https://lightning.ai/docs/torchmetrics/stable/classification/precision_recall_curve.html)
+- [Torchmetrics on Precision](https://lightning.ai/docs/torchmetrics/stable/classification/precision.html)
+- [Torchmetrics on Recall](https://lightning.ai/docs/torchmetrics/stable/classification/recall.html)
+
+# Reference
