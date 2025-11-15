@@ -1,6 +1,6 @@
 ---
 title: Information Retrieval Systems Evaluation Metrics
-bibliography: /home/alex/Documents/Mathematics/Fourier/wavelet/notes/notereferences/references.bib
+bibliography: references.bib
 output:
     
     html_document:
