@@ -1,0 +1,42 @@
+from Utils.load_utils import load_bsds500
+from noise import add_gaussian_noise
+from matplotlib import pyplot as plt
+from metrics import calculate_accuracy
+import cv2
+
+def main():
+    root = "/home/jacob/courses/math663/BSDS500/BSDS500"
+
+    data = load_bsds500(root)
+
+    images = data["images"]["train"]
+    edges  = data["edges"]["train"]
+
+    test = images[10]
+
+    test_noise = add_gaussian_noise(test, 128, 20, 0.5)
+
+    filtered = cv2.GaussianBlur(test_noise,(3,3), 1, 0)
+
+    edges = cv2.Canny(test, threshold1=100, threshold2=200)
+    edges_noise = cv2.Canny(test_noise, threshold1=100, threshold2=200)
+    edges_smoothed = cv2.Canny(filtered, threshold1=100, threshold2=200)
+
+    noise_accuracy = calculate_accuracy(edges, edges_noise)
+    smoothed_accuracy = calculate_accuracy(edges, edges_smoothed)
+
+    print(noise_accuracy*100)
+    print(smoothed_accuracy*100)
+
+    fig, (ax1, ax2, ax3) = plt.subplots(1, 3)
+    ax1.imshow(edges, cmap='gray')
+    ax2.imshow(edges_noise, cmap='gray')
+    ax3.imshow(edges_smoothed, cmap='gray')
+    # ax1.imshow(test, cmap='gray')
+    # ax2.imshow(test_noise, cmap='gray')
+    # ax3.imshow(filtered, cmap='gray')
+    plt.savefig("comparison.jpg", bbox_inches='tight', dpi=200)
+    plt.show()
+
+if __name__ == "__main__":
+    main()
