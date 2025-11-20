@@ -2,6 +2,8 @@ import numpy as np
 from sklearn.metrics import mean_squared_error
 
 def calculate_accuracy(a, b):
+    if np.shape(a) != np.shape(b):
+        b = b[0:np.shape(b)[0]-1, 0:np.shape(b)[1] -1]
     same = np.equal(a, b)
     return np.sum(same) / same.size
 

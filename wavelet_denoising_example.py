@@ -26,7 +26,9 @@ def dwt2_denoise(image, family, threshold, threshold_value):
 
         image2 = pywt.idwt2((tCA,(tcH,tcV,tcD)), family)
 
-        return image2
+# returning the image as type u-int8
+
+        return image2.astype("uint8")
 
 
 #fig , ax = plt.subplots(2,2)
