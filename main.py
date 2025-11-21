@@ -1,11 +1,12 @@
 from Utils.load_utils import load_bsds500
 from noise import add_gaussian_noise
 from matplotlib import pyplot as plt
-from metrics import calculate_accuracy
+from metrics import calculate_accuracy, psnr
+from wavelet_denoising_example import dwt2_denoise
 import cv2
 
 def main():
-    root = "/home/jacob/courses/math663/BSDS500/BSDS500"
+    root = "../BSDS500/BSDS500"
 
     data = load_bsds500(root)
 
@@ -16,7 +17,10 @@ def main():
 
     test_noise = add_gaussian_noise(test, 128, 20, 0.5)
 
-    filtered = cv2.GaussianBlur(test_noise,(3,3), 1, 0)
+# filtered = cv2.GaussianBlur(test_noise,(3,3), 1, 0)
+
+# wavelet test
+    filtered = dwt2_denoise(test, "haar", "soft", 10)
 
     edges = cv2.Canny(test, threshold1=100, threshold2=200)
     edges_noise = cv2.Canny(test_noise, threshold1=100, threshold2=200)
