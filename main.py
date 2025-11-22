@@ -3,7 +3,9 @@ from noise import add_gaussian_noise
 from matplotlib import pyplot as plt
 from metrics import calculate_accuracy, psnr
 from wavelet_denoising_example import dwt2_denoise
+from canny import canny
 import cv2
+import pywt
 
 def main():
     root = "../BSDS500/BSDS500"
@@ -11,20 +13,24 @@ def main():
     data = load_bsds500(root)
 
     images = data["images"]["train"]
-    edges  = data["edges"]["train"]
 
-    test = images[10]
+    # Good images:
+    # church - 18
+    # seastar - 19
+    # flowers - 22!
+    # shoes - 32
+    # others - 28, 30, 35, 41
+    test = images[22]
+    print(test.shape)
 
     test_noise = add_gaussian_noise(test, 128, 20, 0.5)
 
-# filtered = cv2.GaussianBlur(test_noise,(3,3), 1, 0)
+    filtered = dwt2_denoise(test_noise, "haar", "soft", 10)
+    # filtered = cv2.GaussianBlur(test_noise,(3,3), 0)
 
-# wavelet test
-    filtered = dwt2_denoise(test, "haar", "soft", 10)
-
-    edges = cv2.Canny(test, threshold1=100, threshold2=200)
-    edges_noise = cv2.Canny(test_noise, threshold1=100, threshold2=200)
-    edges_smoothed = cv2.Canny(filtered, threshold1=100, threshold2=200)
+    edges = canny(test)
+    edges_noise = canny(test_noise)
+    edges_smoothed = canny(filtered)
 
     noise_accuracy = calculate_accuracy(edges, edges_noise)
     smoothed_accuracy = calculate_accuracy(edges, edges_smoothed)
