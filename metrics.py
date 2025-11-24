@@ -1,5 +1,5 @@
 import numpy as np
-from sklearn.metrics import f1_score
+from sklearn.metrics import average_precision_score
 from Utils.load_utils import load_bsds500
 from tqdm import tqdm
 def calculate_accuracy(a, b):
@@ -34,8 +34,15 @@ def flatten_data(y_true, y_pred):
     y_pred_all = np.concatenate(y_pred_all, axis=0)
     return y_true_all, y_pred_all
 
-def calculate_OIS(y_true, y_pred):
-    pass
+def calculate_OIS(y_true, y_pred, num_thresholds = 100):
+    thresh_steps = np.linspace(0, 1, num_thresholds)
+    avg_f = 0
+    for i in range(len(y_true)):
+        f = calculate_ODS([y_true[i]], [y_pred[i]], num_thresholds)
+        avg_f += f
+    avg_f = avg_f / len(y_true)
+    return avg_f
+
 def calculate_precision_recall(y_true, y_pred, threshold = 0.5):
     y_pred_all = (y_pred > threshold).astype(np.uint8)
 
@@ -48,7 +55,11 @@ def calculate_precision_recall(y_true, y_pred, threshold = 0.5):
     recall = TP / (TP + FN + 1e-8)
     return precision, recall
 def calculate_average_precision(y_true, y_pred):
-    pass
+    y_true_all  = np.concatenate([yt.reshape(-1) for yt in y_true])
+    y_score_all = np.concatenate([ys.reshape(-1) for ys in y_pred])
+
+    ap = average_precision_score(y_true_all, y_score_all)
+    return ap
 def calculate_F_score(y_true,y_pred, threshold = 0.5):
     prec, recall = calculate_precision_recall(y_true, y_pred, threshold)
 
@@ -64,7 +75,7 @@ def main():
     data = load_bsds500(bsds_path)
     images = data["images"]["train"]
     gt  = data["edges"]["train"]
-    ODS = calculate_ODS(y_pred=images, y_true=gt)
-    print("ODS", ODS)
+    OIS = calculate_average_precision(y_pred=images, y_true=gt)
+    print("OIS", OIS)
 if __name__ == "__main__":
     main()
