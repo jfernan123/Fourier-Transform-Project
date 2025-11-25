@@ -12,7 +12,6 @@ def load_ground_truth(mat_path):
 
     # first annotator boundary map
     boundary = gt_structs[0]["Boundaries"][0][0]  #This only loads a single annotator. Further expansion for other annotators (Annotator is people who labeled the image, 5 people labeled the same image)
-
     return boundary
 
 def load_groundTruth(ground_truth_path):
@@ -68,14 +67,14 @@ def load_bsds500(path):
     return data
 
 def main():
-    root = r"..\..\BSR\BSDS500"
+    root = r"..\BSR\BSDS500"
 
     # Load everything
     data = load_bsds500(root)
 
     images = data["images"]["train"]
     edges  = data["edges"]["train"]
-
+    print(edges[0])
     print("Loaded:")
     print(f"- {len(images)} training images")
     print(f"- {len(edges)} training edge maps")
@@ -91,7 +90,7 @@ def main():
 
         # Image subplot
         plt.subplot(num_samples, 2, 2*i + 1)
-        plt.imshow(img, cmap='grey')
+        plt.imshow(img)
         plt.title(f"Image #{idx}")
         plt.axis("off")
 
