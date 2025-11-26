@@ -1,8 +1,8 @@
 from Utils.load_utils import load_bsds500
 from noise import add_gaussian_noise
 from matplotlib import pyplot as plt
-from metrics import calculate_accuracy, psnr
-from wavelet_denoising_example import dwt2_denoise
+from metrics import calculate_accuracy, psnr, mcc
+from wavelet_denoising_example import dwt2_denoise, multilevel_denoise
 from canny import canny
 import cv2
 import pywt
@@ -23,9 +23,11 @@ def main():
     test = images[22]
     print(test.shape)
 
-    test_noise = add_gaussian_noise(test, 128, 20, 0.5)
+    test_noise = add_gaussian_noise(test, 0, 20, 1)
 
-    filtered = dwt2_denoise(test_noise, "haar", "soft", 10)
+    # filtered = dwt2_denoise(test_noise, "haar", "soft", 10)
+    filtered = multilevel_denoise(test_noise, "db2", "soft")
+
     # filtered = cv2.GaussianBlur(test_noise,(3,3), 0)
 
     edges = canny(test)
@@ -35,16 +37,22 @@ def main():
     noise_accuracy = calculate_accuracy(edges, edges_noise)
     smoothed_accuracy = calculate_accuracy(edges, edges_smoothed)
 
+    noise_mcc = mcc(edges, edges_noise)
+    smoothed_mcc = mcc(edges, edges_smoothed)
+
+    print(noise_mcc)
+    print(smoothed_mcc)
+
     print(noise_accuracy*100)
     print(smoothed_accuracy*100)
 
     fig, (ax1, ax2, ax3) = plt.subplots(1, 3)
-    ax1.imshow(edges, cmap='gray')
-    ax2.imshow(edges_noise, cmap='gray')
-    ax3.imshow(edges_smoothed, cmap='gray')
-    # ax1.imshow(test, cmap='gray')
-    # ax2.imshow(test_noise, cmap='gray')
-    # ax3.imshow(filtered, cmap='gray')
+    # ax1.imshow(edges, cmap='gray')
+    # ax2.imshow(edges_noise, cmap='gray')
+    # ax3.imshow(edges_smoothed, cmap='gray')
+    ax1.imshow(test, cmap='gray')
+    ax2.imshow(test_noise, cmap='gray')
+    ax3.imshow(filtered, cmap='gray')
     plt.savefig("comparison.jpg", bbox_inches='tight', dpi=200)
     plt.show()
 

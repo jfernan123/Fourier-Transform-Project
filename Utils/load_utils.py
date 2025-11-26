@@ -57,12 +57,13 @@ def load_bsds500(path):
     """
     path = os.path.join(path, "data")
     ground_truth_path = os.path.join(path, "groundTruth")
-    ground_truth_data = load_groundTruth(ground_truth_path)
+    # ground_truth_data = load_groundTruth(ground_truth_path)
     images_path = os.path.join(path, "images")
 
     img_data = load_images(images_path)
 
-    data = {"images": img_data, "edges": ground_truth_data}
+    # data = {"images": img_data, "edges": ground_truth_data}
+    data = {"images": img_data}
 
     return data
 
