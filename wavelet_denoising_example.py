@@ -24,11 +24,15 @@ def dwt2_denoise(image, family, threshold, threshold_value):
 
 # applying inverse transform with (t)ransformed coeffs
 
-        image2 = pywt.idwt2((tCA,(tcH,tcV,tcD)), family)
+        image_2 = pywt.idwt2((tCA,(tcH,tcV,tcD)), family)
 
 # returning the image as type u-int8
 
-        return image2.astype("uint8")
+# resizing the image if need be 
+        if np.shape(image) != np.shape(image_2):
+            image_2 = image_2[0:np.shape(image_2)[0]-1, 0:np.shape(image_2)[1]-1]
+    
+        return image_2.astype("uint8")
 
 
 #fig , ax = plt.subplots(2,2)
