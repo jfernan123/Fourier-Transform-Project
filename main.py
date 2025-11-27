@@ -12,7 +12,7 @@ def main():
 
     data = load_bsds500(root)
 
-    images = data["images"]["train"]
+    images = data["images"]["train"] + data["images"]["val"] + data["images"]["test"]
 
     # Good images:
     # church - 18
@@ -20,41 +20,49 @@ def main():
     # flowers - 22!
     # shoes - 32
     # others - 28, 30, 35, 41
-    test = images[22]
-    print(test.shape)
+    image = images[22]
 
-    test_noise = add_gaussian_noise(test, 0, 20, 1)
+    noisy_image = add_gaussian_noise(image, 0, 20, 1)
+    # noisy_image = image
 
     # filtered = dwt2_denoise(test_noise, "haar", "soft", 10)
-    filtered = multilevel_denoise(test_noise, "db2", "soft")
+    wavelet_denoise = multilevel_denoise(noisy_image, "db2", "soft")
+    gaussian_denoise = cv2.GaussianBlur(noisy_image, (5,5), 2)
 
-    # filtered = cv2.GaussianBlur(test_noise,(3,3), 0)
-
-    edges = canny(test)
-    edges_noise = canny(test_noise)
-    edges_smoothed = canny(filtered)
+    edges = canny(image)
+    edges_noise = canny(noisy_image)
+    edges_wavelet = canny(wavelet_denoise)
+    edges_gaussian = canny(gaussian_denoise)
 
     noise_accuracy = calculate_accuracy(edges, edges_noise)
-    smoothed_accuracy = calculate_accuracy(edges, edges_smoothed)
+    wavelet_accuracy = calculate_accuracy(edges, edges_wavelet)
+    gaussian_accuracy = calculate_accuracy(edges, edges_gaussian)
 
     noise_mcc = mcc(edges, edges_noise)
-    smoothed_mcc = mcc(edges, edges_smoothed)
+    wavelet_mcc = mcc(edges, edges_wavelet)
+    gaussian_mcc = mcc(edges, edges_gaussian)
 
     print(noise_mcc)
-    print(smoothed_mcc)
+    print(wavelet_mcc)
+    print(gaussian_mcc)
 
     print(noise_accuracy*100)
-    print(smoothed_accuracy*100)
+    print(wavelet_accuracy*100)
+    print(gaussian_accuracy*100)
 
-    fig, (ax1, ax2, ax3) = plt.subplots(1, 3)
-    # ax1.imshow(edges, cmap='gray')
-    # ax2.imshow(edges_noise, cmap='gray')
-    # ax3.imshow(edges_smoothed, cmap='gray')
-    ax1.imshow(test, cmap='gray')
-    ax2.imshow(test_noise, cmap='gray')
-    ax3.imshow(filtered, cmap='gray')
+    fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2)
+    ax1.imshow(edges, cmap='gray')
+    ax2.imshow(edges_noise, cmap='gray')
+    ax3.imshow(edges_wavelet, cmap='gray')
+    ax4.imshow(edges_gaussian, cmap='gray')
+    # ax1.imshow(image, cmap='gray')
+    # ax2.imshow(noisy_image, cmap='gray')
+    # ax3.imshow(wavelet_denoise, cmap='gray')
+    # ax4.imshow(gaussian_denoise, cmap='gray')
     plt.savefig("comparison.jpg", bbox_inches='tight', dpi=200)
     plt.show()
+
+    # orthogonal: coif, db, haar, sym
 
 if __name__ == "__main__":
     main()
