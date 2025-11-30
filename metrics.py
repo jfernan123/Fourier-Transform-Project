@@ -86,7 +86,6 @@ def calculate_F_score(y_true,y_pred, threshold = 0.5):
     return f1_score
 
 
-
 def main():
 
     bsds_path = "BSR\BSDS500"
