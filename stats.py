@@ -26,6 +26,11 @@ def main():
         # sym{1,2,3} = db{1,2,3}
         denoised_images = {
             # Add other denoising methods here
+            #Classical methods
+            "Classical Gaussian": cv2.GaussianBlur(noisy_image, (5,5), 3, 0),
+            "Classical Median": cv2.medianBlur(noisy_image, 5),
+            "Classical Bilateral": cv2.bilateralFilter(noisy_image, 9, 75, 75),
+            #Wavelet methods
             "Wavelet (haar)": multilevel_denoise(noisy_image, "haar", "soft"),
             "Wavelet (db2)": multilevel_denoise(noisy_image, "db2", "soft"),
             "Wavelet (db3)": multilevel_denoise(noisy_image, "db3", "soft"),
