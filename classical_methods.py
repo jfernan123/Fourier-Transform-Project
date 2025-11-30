@@ -19,14 +19,14 @@ test = images[22]        # use flowers
 print("Image shape:", test.shape)
 
 
-test_noise = add_gaussian_noise(test, 128, 20, 0.5)
+test_noise = add_gaussian_noise(test, 0, 20, 1)
 
 # classical filters
 filtered_gaussian = cv2.GaussianBlur(test_noise, (5,5), 3, 0)
 filtered_median = cv2.medianBlur(test_noise, 5)
 filtered_bilateral = cv2.bilateralFilter(test_noise, 9, 75, 75)
 
-# compute edges using canny 
+# compute edges using canny
 edges_clean = canny(test)
 edges_noisy = canny(test_noise)
 

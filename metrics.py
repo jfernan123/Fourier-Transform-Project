@@ -1,4 +1,5 @@
 import numpy as np
+import math
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import f1_score
 from sklearn.metrics import matthews_corrcoef
@@ -7,7 +8,6 @@ from Utils.load_utils import load_bsds500
 from tqdm import tqdm
 
 def calculate_accuracy(a, b):
-
     same = np.equal(a, b)
     return np.sum(same) / same.size
 
@@ -17,13 +17,12 @@ def mcc(a, b):
 def psnr(image_1,image_2):
     # image 1 original image
     # image 2 transformed image
-    # if the function it's called on itself, PSNR and MSE is zero
-    if calculate_accuracy(image_1,image_2) == 1:
-        return 0
+    if np.equal(image_1, image_2).all():
+        return 99999
 
     else:
         MSE = mean_squared_error(image_1,image_2)
-        return 20*np.log10(255)- 10*np.log10(MSE)
+        return 20*math.log10(255)- 10*math.log10(MSE)
 
 def calculate_ODS(y_true, y_pred, num_thresholds = 100):
 
