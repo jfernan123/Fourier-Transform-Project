@@ -6,6 +6,26 @@ from sklearn.metrics import matthews_corrcoef
 from sklearn.metrics import average_precision_score
 from Utils.load_utils import load_bsds500
 from tqdm import tqdm
+from scipy.ndimage import distance_transform_edt
+
+def pratt_fom(baseline, detected):
+    dist = distance_transform_edt(np.invert(baseline))
+    alpha = 1/9
+
+    fom = 0
+
+    N, M = detected.shape
+
+    for i in range(0, N):
+        for j in range(0, M):
+            if detected[i, j] == 255:
+                fom += 1.0 / ( 1.0 + dist[i, j] * dist[i, j] * alpha)
+
+    fom /= np.maximum(
+        np.count_nonzero(baseline),
+        np.count_nonzero(detected))
+
+    return fom
 
 def calculate_accuracy(a, b):
     same = np.equal(a, b)
@@ -13,6 +33,9 @@ def calculate_accuracy(a, b):
 
 def mcc(a, b):
     return matthews_corrcoef(a.flatten(), b.flatten())
+
+def mse(a, b):
+    return mean_squared_error(a, b)
 
 def psnr(image_1,image_2):
     # image 1 original image

@@ -25,7 +25,6 @@ def sd(coeffs):
 #     return T
 
 # T = var(noise) / sd(signal)
-# Tr = sqrt(2) * T
 def bayes_threshold(image, noise_variance):
     # image = signal + noise, where signal and noise are independent
     # so var(image) = var(signal) + var(noise)
