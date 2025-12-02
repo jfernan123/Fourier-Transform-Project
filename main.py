@@ -26,13 +26,19 @@ def main():
     # noisy_image = image
 
     # filtered = dwt2_denoise(test_noise, "haar", "soft", 10)
-    wavelet_denoise = multilevel_denoise(noisy_image, "db2", "soft")
+    wavelet_denoise = multilevel_denoise(noisy_image, "haar", "soft")
     gaussian_denoise = cv2.GaussianBlur(noisy_image, (5,5), 2)
+
+    cv2.imwrite("noisy-flowers.jpg", noisy_image)
+    cv2.imwrite("wavelet-flowers.jpg", wavelet_denoise)
 
     edges = canny(image)
     edges_noise = canny(noisy_image)
     edges_wavelet = canny(wavelet_denoise)
     edges_gaussian = canny(gaussian_denoise)
+
+    cv2.imwrite("noisy-flower-edges.jpg", edges_noise)
+    cv2.imwrite("wavelet-flower-edges.jpg", edges_wavelet)
 
     noise_accuracy = calculate_accuracy(edges, edges_noise)
     wavelet_accuracy = calculate_accuracy(edges, edges_wavelet)
