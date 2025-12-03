@@ -26,6 +26,7 @@ def sobels():
     #eagle photo 
     image = images[20]
     noised_image = add_gaussian_noise(image, 20, 40, 1)
+    plt.rcParams.update({'font.size': 10})
     fig, (ax1,ax2) = plt.subplots(1,2)
     ax1.imshow(image, cmap = 'gray')
     ax1.set_title('Original from BSDS')
@@ -93,19 +94,21 @@ def sobels():
 
     fig, ((ax1,ax2,ax3),(ax4,ax5,ax6)) = plt.subplots(2,3)
     ax1.imshow(haars[0],cmap='gray')
-    ax1.set_title('Soft Thresholding C = 30')
+    ax1.set_title('Soft C = 30')
     ax2.imshow(haars[1],cmap='gray')
-    ax2.set_title('Hard Thresholding C = 30')
+    ax2.set_title('Hard C = 30')
     ax3.imshow(haars[2],cmap='gray')
     ax3.set_title('Greater C = 30')
     ax4.imshow(haars_denoise[0], cmap = 'gray')
-    ax4.set_title('Soft C = 30 on noised image')
+    ax4.set_title('Soft C = 30 noised')
     ax5.imshow(haars_denoise[1], cmap = 'gray')
-    ax5.set_title('Hard C = 30 on noised image')
+    ax5.set_title('Hard C = 30 noised')
     ax6.imshow(haars_denoise[2], cmap = 'gray')
-    ax6.set_title('Greater C =30 on noised image')
+    ax6.set_title('C =30 on noised')
+
+    plt.tick_params(axis='both', which='minor', labelsize=12)
+    plt.savefig('thresholdingcomparison.jpg',dpi=200)
     plt.show()
-    plt.savefig('thresholdingcomparison.jpg',bbox_inches='tight',dpi=200)
     # orthogonal: coif, db, haar, sym
 
 
