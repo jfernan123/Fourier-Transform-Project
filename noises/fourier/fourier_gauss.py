@@ -3,10 +3,6 @@ import numpy as np
 import os
 import sys
 import matplotlib.pyplot as plt
-sys.path.append("../..")
-HERE = os.path.dirname(os.path.abspath(__file__))
-BASE_DIR = os.path.abspath(os.path.join(HERE, "..", ".."))
-sys.path.append(BASE_DIR)
 
 import numpy as np
 from Utils.load_utils import load_bsds500
@@ -28,11 +24,16 @@ def fourier_gaussian_filter(image, sigma):
     F_filtered = F * H_gauss
 
     filtered = np.fft.ifftn(F_filtered)
-    filtered = np.real(filtered) 
+    filtered = np.real(filtered)
 
     return filtered
 
 def main():
+    sys.path.append("../..")
+    HERE = os.path.dirname(os.path.abspath(__file__))
+    BASE_DIR = os.path.abspath(os.path.join(HERE, "..", ".."))
+    sys.path.append(BASE_DIR)
+
     data = load_bsds500("BSR\BSDS500")
     img = data["images"]["train"][0]
     filtered = fourier_gaussian_filter(img, sigma=2.0)
