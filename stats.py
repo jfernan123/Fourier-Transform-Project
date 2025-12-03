@@ -22,10 +22,12 @@ def main():
 
     edge_ratios = []
 
+    rng = np.random.default_rng(seed=42)
+
     # for i in tqdm(range(1)):
     for i in tqdm(range(len(images))):
         original_image = images[i]
-        noisy_image = add_gaussian_noise(original_image, 0, 20, 1)
+        noisy_image = add_gaussian_noise(rng, original_image, 0, 20, 1)
 
         # haar = db1
         # sym{1,2,3} = db{1,2,3}
