@@ -2,6 +2,7 @@ from Utils.load_utils import load_bsds500
 from noise import add_gaussian_noise
 from metrics import calculate_accuracy, psnr, mcc, mse, pratt_fom
 from wavelet_denoising_example import multilevel_denoise
+from fourier_filter import fourier_denoise
 from canny import canny
 import cv2
 import pywt
@@ -30,9 +31,12 @@ def main():
         denoised_images = {
             # Add other denoising methods here
             #Classical methods
-            # "Classical Gaussian": cv2.GaussianBlur(noisy_image, (5,5), 3, 0),
-            # "Classical Median": cv2.medianBlur(noisy_image, 5),
-            # "Classical Bilateral": cv2.bilateralFilter(noisy_image, 9, 75, 75),
+            "Classical Gaussian": cv2.GaussianBlur(noisy_image, (5,5), 3, 0),
+            "Classical Median": cv2.medianBlur(noisy_image, 5),
+            "Classical Bilateral": cv2.bilateralFilter(noisy_image, 9, 75, 75),
+            #Fourier 
+            "FFT Denoise": np.uint8(fourier_denoise(noisy_image)),
+            #Wavelets
             "Wavelet (haar)": multilevel_denoise(noisy_image, "haar", "soft"),
             "Wavelet (db2)": multilevel_denoise(noisy_image, "db2", "soft"),
             "Wavelet (db3)": multilevel_denoise(noisy_image, "db3", "soft"),
@@ -61,6 +65,7 @@ def main():
                 "ACC": calculate_accuracy(original_edges, denoised_edges),
                 "MSE": mse(original_image, denoised_image),
                 "MCC": mcc(original_edges, denoised_edges),
+                
             }
 
             for (metric, stat) in metrics.items():
