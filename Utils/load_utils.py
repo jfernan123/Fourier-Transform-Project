@@ -37,7 +37,7 @@ def load_images(image_path):
             print(image_path + f"{os.sep}{split}")
             data_paths = os.listdir(image_path + f"{os.sep}{split}")
 
-            for p in data_paths:
+            for p in sorted(data_paths):
                 if p.endswith(".db"):
                     continue
                 assert p.endswith(".jpg"), "Did not load a .jpg file"

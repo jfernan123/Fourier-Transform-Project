@@ -62,7 +62,7 @@ def multilevel_denoise(image, wavelet, mode):
     if np.shape(image) != np.shape(image_2):
         image_2 = image_2[0:np.shape(image_2)[0]-1, 0:np.shape(image_2)[1]-1]
 
-    return image_2.astype("uint8")
+    return image_2.clip(0, 255).astype("uint8")
 
 def dwt2_denoise(image, family, threshold, threshold_value):
 
