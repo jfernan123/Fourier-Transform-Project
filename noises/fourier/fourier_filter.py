@@ -21,13 +21,14 @@ def fourier_denoise(image, percentile=99, K=20):
     mag[H//2 - K:H//2 + K, W//2 - K:W//2 + K] = 0
     #Obtain a threshold such that %percentile of the magnitudes are coefficient < threshold
     thresh = np.percentile(mag, percentile)
-    mask = mag < thresh  
+    mask = mag < thresh
     F_shift_filtered = F_shift * mask
     #Multiply it by mask and convert back to image
     F_filtered = fftpack.ifftshift(F_shift_filtered)
     image_filtered = np.real(fftpack.ifft2(F_filtered))
 
-    return image_filtered
+    return image_filtered.clip(0, 255).astype(np.uint8)
+
 from Utils.plot_utils import get_fft_magnitude
 from noise import add_gaussian_noise
 

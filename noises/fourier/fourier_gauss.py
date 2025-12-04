@@ -26,7 +26,7 @@ def fourier_gaussian_filter(image, sigma):
     filtered = np.fft.ifftn(F_filtered)
     filtered = np.real(filtered)
 
-    return filtered
+    return filtered.clip(0, 255).astype(np.uint8)
 
 def main():
     sys.path.append("../..")

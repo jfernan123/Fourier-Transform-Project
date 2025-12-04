@@ -32,23 +32,15 @@ def main():
         # haar = db1
         # sym{1,2,3} = db{1,2,3}
         denoised_images = {
-            # Add other denoising methods here
-            #Classical methods
             "Classical Gaussian": cv2.GaussianBlur(noisy_image, (5,5), 0, 0),
             "Classical Median": cv2.medianBlur(noisy_image, 5),
             "Classical Bilateral": cv2.bilateralFilter(noisy_image, 9, 25, 25),
-            "Fourier Naive": fourier_denoise(noisy_image, 60, 50).astype(np.uint8),
-            "Fourier Gaussian": fourier_gaussian_filter(noisy_image, 1).astype(np.uint8),
+            "Fourier Naive": fourier_denoise(noisy_image, 60, 50),
+            "Fourier Gaussian": fourier_gaussian_filter(noisy_image, 1),
             "Wavelet (haar)": multilevel_denoise(noisy_image, "haar", "soft"),
-            "Wavelet (db2)": multilevel_denoise(noisy_image, "db2", "soft"),
-            "Wavelet (db3)": multilevel_denoise(noisy_image, "db3", "soft"),
             "Wavelet (db4)": multilevel_denoise(noisy_image, "db4", "soft"),
-            "Wavelet (sym2)": multilevel_denoise(noisy_image, "sym2", "soft"),
-            "Wavelet (sym3)": multilevel_denoise(noisy_image, "sym3", "soft"),
-            "Wavelet (sym4)": multilevel_denoise(noisy_image, "sym4", "soft"),
-            "Wavelet (coif1)": multilevel_denoise(noisy_image, "coif1", "soft"),
-            "Wavelet (coif2)": multilevel_denoise(noisy_image, "coif2", "soft"),
-            "Wavelet (coif3)": multilevel_denoise(noisy_image, "coif3", "soft"),
+            "Wavelet (sym9)": multilevel_denoise(noisy_image, "sym9", "soft"),
+            "Wavelet (coif6)": multilevel_denoise(noisy_image, "coif6", "soft"),
             # "Wavelet (bior1.1)": multilevel_denoise(noisy_image, "bior1.1", "soft"),
             # "Wavelet (bior1.3)": multilevel_denoise(noisy_image, "bior1.3", "soft"),
             # "Wavelet (bior1.5)": multilevel_denoise(noisy_image, "bior1.5", "soft"),
@@ -67,6 +59,7 @@ def main():
                 "ACC": calculate_accuracy(original_edges, denoised_edges),
                 "MSE": mse(original_image, denoised_image),
                 "MCC": mcc(original_edges, denoised_edges),
+                # "FOM": pratt_fom(original_edges, denoised_edges),
             }
 
             for (metric, stat) in metrics.items():
