@@ -1,7 +1,7 @@
 from Utils.load_utils import load_bsds500
 from noise import add_gaussian_noise
 from metrics import calculate_accuracy, psnr, mcc, mse, pratt_fom
-from wavelet_denoising_example import multilevel_denoise
+from wavelet_denoising import multilevel_denoise
 from noises.fourier.fourier_filter import fourier_denoise
 from noises.fourier.fourier_gauss import fourier_gaussian_filter
 from canny import canny
@@ -41,9 +41,6 @@ def main():
             "Wavelet (db4)": multilevel_denoise(noisy_image, "db4", "soft"),
             "Wavelet (sym9)": multilevel_denoise(noisy_image, "sym9", "soft"),
             "Wavelet (coif6)": multilevel_denoise(noisy_image, "coif6", "soft"),
-            # "Wavelet (bior1.1)": multilevel_denoise(noisy_image, "bior1.1", "soft"),
-            # "Wavelet (bior1.3)": multilevel_denoise(noisy_image, "bior1.3", "soft"),
-            # "Wavelet (bior1.5)": multilevel_denoise(noisy_image, "bior1.5", "soft"),
         }
 
         original_edges = canny(original_image)

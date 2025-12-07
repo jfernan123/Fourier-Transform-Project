@@ -8,7 +8,6 @@ from matplotlib import pyplot as plt
 from metrics import calculate_accuracy, psnr
 from canny import canny
 
-
 root = "../BSDS500/BSDS500"
 
 data = load_bsds500(root)
