@@ -9,41 +9,27 @@ from metrics import calculate_accuracy, psnr
 from canny import canny
 
 root = "../BSDS500/BSDS500"
-
 data = load_bsds500(root)
-
 images = data["images"]["train"]
 
-test = images[22]        # use flowers
+test = images[22]        # sample image
 print("Image shape:", test.shape)
-
 
 test_noise = add_gaussian_noise(test, 0, 20, 1)
 
 # classical filters
 filtered_gaussian = cv2.GaussianBlur(test_noise, (5,5), 3, 0)
 filtered_median = cv2.medianBlur(test_noise, 5)
-filtered_bilateral = cv2.bilateralFilter(test_noise, 9, 75, 75)
+filtered_bilateral = cv2.bilateralFilter(test_noise, 9, 25, 25)
 
 # compute edges using canny
 edges_clean = canny(test)
 edges_noisy = canny(test_noise)
-
 edges_gauss = canny(filtered_gaussian)
 edges_median = canny(filtered_median)
 edges_bilateral = canny(filtered_bilateral)
 
 # compare metrics
-noise_accuracy = calculate_accuracy(edges_clean, edges_noisy)
-gauss_accuracy = calculate_accuracy(edges_clean, edges_gauss)
-median_accuracy = calculate_accuracy(edges_clean, edges_median)
-bilateral_accuracy = calculate_accuracy(edges_clean, edges_bilateral)
-
-print("Noise accuracy (%):", noise_accuracy * 100)
-print("Gaussian filter accuracy (%):", gauss_accuracy * 100)
-print("Median filter accuracy (%):", median_accuracy * 100)
-print("Bilateral filter accuracy (%):", bilateral_accuracy * 100)
-
 acc_noisy = calculate_accuracy(edges_clean, edges_noisy)
 acc_gauss = calculate_accuracy(edges_clean, edges_gauss)
 acc_median = calculate_accuracy(edges_clean, edges_median)
@@ -64,32 +50,51 @@ print("Gaussian:", psnr_gauss)
 print("Median:", psnr_median)
 print("Bilateral:", psnr_bilateral)
 
-# plots
-fig, axes = plt.subplots(1, 5, figsize=(14, 5))
+#image edges
+fig, axes = plt.subplots(1, 2, figsize=(18, 10))
 
 axes[0].imshow(edges_noisy, cmap='gray')
 axes[0].set_title("Noisy Edges")
+axes[0].axis("off")
 
 axes[1].imshow(edges_gauss, cmap='gray')
 axes[1].set_title("Gaussian")
-
-axes[2].imshow(edges_median, cmap='gray')
-axes[2].set_title("Median")
-
-axes[3].imshow(edges_bilateral, cmap='gray')
-axes[3].set_title("Bilateral")
-
-axes[4].imshow(edges_clean, cmap='gray')
-axes[4].set_title("Clean Edges")
+axes[1].axis("off")
 
 
-for ax in axes:
-    ax.axis('off')
-
-plt.savefig("comparison_filters.jpg", dpi=200, bbox_inches='tight')
+plt.tight_layout()
+plt.savefig("comparison_filters1.jpg", dpi=200, bbox_inches='tight')
 plt.show()
 
-# ground truth comparison
+fig, axes = plt.subplots(1, 2, figsize=(18, 10))
+
+axes[0].imshow(edges_noisy, cmap='gray')
+axes[0].set_title("Noisy Edges")
+axes[0].axis("off")
+
+axes[1].imshow(edges_median, cmap='gray')
+axes[1].set_title("Median")
+axes[1].axis("off")
+
+plt.tight_layout()
+plt.savefig("comparison_filters2.jpg", dpi=200, bbox_inches='tight')
+plt.show()
+
+fig, axes = plt.subplots(1, 2, figsize=(18, 10))
+
+axes[0].imshow(edges_noisy, cmap='gray')
+axes[0].set_title("Noisy Edges")
+axes[0].axis("off")
+
+axes[1].imshow(edges_bilateral, cmap='gray')
+axes[1].set_title("Bilateral")
+axes[1].axis("off")
+
+plt.tight_layout()
+plt.savefig("comparison_filters3.jpg", dpi=200, bbox_inches='tight')
+plt.show()
+
+# ground truth + PSNR
 fig2, axes2 = plt.subplots(1, 5, figsize=(18, 5))
 
 axes2[0].imshow(test, cmap='gray')
@@ -111,4 +116,36 @@ for ax in axes2:
     ax.axis('off')
 
 plt.savefig("ground_truth_comparison.jpg", dpi=200, bbox_inches='tight')
+plt.show()
+
+#denoising only
+fig3, axes3 = plt.subplots(2, 3, figsize=(18, 10))
+
+# Disable the empty subplot on the top-right
+axes3[0, 2].axis("off")
+
+# --- Top row ---
+axes3[0, 0].imshow(test, cmap='gray')
+axes3[0, 0].set_title("Clean Image")
+axes3[0, 0].axis("off")
+
+axes3[0, 1].imshow(test_noise, cmap='gray')
+axes3[0, 1].set_title("Noisy Image")
+axes3[0, 1].axis("off")
+
+# --- Bottom row ---
+axes3[1, 0].imshow(filtered_gaussian, cmap='gray')
+axes3[1, 0].set_title("Gaussian Denoised")
+axes3[1, 0].axis("off")
+
+axes3[1, 1].imshow(filtered_median, cmap='gray')
+axes3[1, 1].set_title("Median Denoised")
+axes3[1, 1].axis("off")
+
+axes3[1, 2].imshow(filtered_bilateral, cmap='gray')
+axes3[1, 2].set_title("Bilateral Denoised")
+axes3[1, 2].axis("off")
+
+plt.tight_layout()
+plt.savefig("denoising_only.jpg", dpi=200, bbox_inches='tight')
 plt.show()
