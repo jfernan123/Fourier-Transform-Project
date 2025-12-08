@@ -65,6 +65,8 @@ def multilevel_denoise(image, wavelet, mode):
 
     return image_2.astype("uint8")
 
+# implemented by Alex
+
 def dwt2_denoise(image, family, threshold, threshold_value):
 
     if ((family in pywt.families()) and (threshold in ['soft','hard','garrote','greater','less'])) and threshold_value > 0:
