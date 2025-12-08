@@ -95,58 +95,58 @@ plt.tight_layout()
 plt.savefig("comparison_filters3.jpg", dpi=200, bbox_inches='tight')
 plt.show()
 
-#ground truth + PSNR
-# fig2, axes2 = plt.subplots(1, 5, figsize=(18, 5))
+# ground truth + PSNR
+fig2, axes2 = plt.subplots(1, 5, figsize=(18, 5))
 
-# axes2[0].imshow(test, cmap='gray')
-# axes2[0].set_title("Ground Truth")
+axes2[0].imshow(test, cmap='gray')
+axes2[0].set_title("Ground Truth")
 
-# axes2[1].imshow(test_noise, cmap='gray')
-# axes2[1].set_title("Noisy")
+axes2[1].imshow(test_noise, cmap='gray')
+axes2[1].set_title("Noisy")
 
-# axes2[2].imshow(filtered_gaussian, cmap='gray')
-# axes2[2].set_title(f"Gaussian\nPSNR={psnr_gauss:.2f}")
+axes2[2].imshow(filtered_gaussian, cmap='gray')
+axes2[2].set_title(f"Gaussian\nPSNR={psnr_gauss:.2f}")
 
-# axes2[3].imshow(filtered_median, cmap='gray')
-# axes2[3].set_title(f"Median\nPSNR={psnr_median:.2f}")
+axes2[3].imshow(filtered_median, cmap='gray')
+axes2[3].set_title(f"Median\nPSNR={psnr_median:.2f}")
 
-# axes2[4].imshow(filtered_bilateral, cmap='gray')
-# axes2[4].set_title(f"Bilateral\nPSNR={psnr_bilateral:.2f}")
+axes2[4].imshow(filtered_bilateral, cmap='gray')
+axes2[4].set_title(f"Bilateral\nPSNR={psnr_bilateral:.2f}")
 
-# for ax in axes2:
-#     ax.axis('off')
+for ax in axes2:
+    ax.axis('off')
 
-# plt.savefig("ground_truth_comparison.jpg", dpi=200, bbox_inches='tight')
-# plt.show()
+plt.savefig("ground_truth_comparison.jpg", dpi=200, bbox_inches='tight')
+plt.show()
 
 #denoising only
-# fig3, axes3 = plt.subplots(2, 3, figsize=(18, 10))
+fig3, axes3 = plt.subplots(2, 3, figsize=(18, 10))
 
-# # Disable the empty subplot on the top-right
-# axes3[0, 2].axis("off")
+# Disable the empty subplot on the top-right
+axes3[0, 2].axis("off")
 
-# # --- Top row ---
-# axes3[0, 0].imshow(test, cmap='gray')
-# axes3[0, 0].set_title("Clean Image")
-# axes3[0, 0].axis("off")
+# --- Top row ---
+axes3[0, 0].imshow(test, cmap='gray')
+axes3[0, 0].set_title("Clean Image")
+axes3[0, 0].axis("off")
 
-# axes3[0, 1].imshow(test_noise, cmap='gray')
-# axes3[0, 1].set_title("Noisy Image")
-# axes3[0, 1].axis("off")
+axes3[0, 1].imshow(test_noise, cmap='gray')
+axes3[0, 1].set_title("Noisy Image")
+axes3[0, 1].axis("off")
 
-# # --- Bottom row ---
-# axes3[1, 0].imshow(filtered_gaussian, cmap='gray')
-# axes3[1, 0].set_title("Gaussian Denoised")
-# axes3[1, 0].axis("off")
+# --- Bottom row ---
+axes3[1, 0].imshow(filtered_gaussian, cmap='gray')
+axes3[1, 0].set_title("Gaussian Denoised")
+axes3[1, 0].axis("off")
 
-# axes3[1, 1].imshow(filtered_median, cmap='gray')
-# axes3[1, 1].set_title("Median Denoised")
-# axes3[1, 1].axis("off")
+axes3[1, 1].imshow(filtered_median, cmap='gray')
+axes3[1, 1].set_title("Median Denoised")
+axes3[1, 1].axis("off")
 
-# axes3[1, 2].imshow(filtered_bilateral, cmap='gray')
-# axes3[1, 2].set_title("Bilateral Denoised")
-# axes3[1, 2].axis("off")
+axes3[1, 2].imshow(filtered_bilateral, cmap='gray')
+axes3[1, 2].set_title("Bilateral Denoised")
+axes3[1, 2].axis("off")
 
-# plt.tight_layout()
-# plt.savefig("denoising_only.jpg", dpi=200, bbox_inches='tight')
-# plt.show()
+plt.tight_layout()
+plt.savefig("denoising_only.jpg", dpi=200, bbox_inches='tight')
+plt.show()
