@@ -121,8 +121,8 @@ def sobels():
     haars = []
     haars_denoise = []
     for j in ["soft","hard","greater"]:
-        image2 = dwt2_denoise(image, 'haar', j, 30)
-        image3 = dwt2_denoise(noised_image, 'haar', j, 30)
+        image2 = dwt2_denoise(image, 'haar', j, 0.5)
+        image3 = dwt2_denoise(noised_image, 'haar', j, 0.5)
         haars.append(image2)
         haars_denoise.append(image3)
 
