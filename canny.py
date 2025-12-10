@@ -3,7 +3,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 # https://docs.opencv.org/4.x/da/d22/tutorial_py_canny.html
-def canny(image):
+def canny(image,):
     # https://stackoverflow.com/questions/4292249/automatic-calculation-of-low-and-high-thresholds-for-the-canny-operation-in-open
 
     # Old ideas, better than just 100 and 200

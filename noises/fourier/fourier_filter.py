@@ -10,7 +10,6 @@ import matplotlib.pyplot as plt
 from Utils.load_utils import load_bsds500
 
 def fourier_denoise(image, percentile=99, K=20):
-    # 1. FFT
     F = fftpack.fft2(image)
     F_shift = fftpack.fftshift(F)  # center DC
     H, W = image.shape

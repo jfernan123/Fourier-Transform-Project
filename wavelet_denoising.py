@@ -1,6 +1,6 @@
 import numpy as np
 import math
-
+import pywt
 # https://www.sciencedirect.com/topics/computer-science/wavelet-denoising
 # orthonormal wavelet to make sure noise is still gaussian
 
