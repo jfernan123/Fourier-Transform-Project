@@ -52,16 +52,23 @@ print("Median:", psnr_median)
 print("Bilateral:", psnr_bilateral)
 
 #image edges
-fig, axes = plt.subplots(1, 2, figsize=(18, 10))
+fig, axes = plt.subplots(2, 2, figsize=(18, 10))
 
-axes[0].imshow(edges_noisy, cmap='gray')
-axes[0].set_title("Noisy Edges")
-axes[0].axis("off")
+axes[0,0].imshow(edges_noisy, cmap='gray')
+axes[0,0].set_title("Noisy Edges")
+axes[0,0].axis("off")
 
-axes[1].imshow(edges_gauss, cmap='gray')
-axes[1].set_title("Gaussian")
-axes[1].axis("off")
+axes[0,1].imshow(edges_gauss, cmap='gray')
+axes[0,1].set_title("Gaussian")
+axes[0,1].axis("off")
 
+axes[1,0].imshow(edges_median, cmap='gray')
+axes[1,0].set_title("Median")
+axes[1,0].axis("off")
+
+axes[1,1].imshow(edges_bilateral, cmap='gray')
+axes[1,1].set_title("Bilateral")
+axes[1,1].axis("off")
 
 plt.tight_layout()
 plt.savefig("comparison_filters1.jpg", dpi=200, bbox_inches='tight')
@@ -76,6 +83,7 @@ axes[0].axis("off")
 axes[1].imshow(edges_median, cmap='gray')
 axes[1].set_title("Median")
 axes[1].axis("off")
+
 
 plt.tight_layout()
 plt.savefig("comparison_filters2.jpg", dpi=200, bbox_inches='tight')
