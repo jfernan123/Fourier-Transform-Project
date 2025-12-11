@@ -9,9 +9,10 @@ import pywt
 import numpy as np
 import math
 from tqdm import tqdm
-
+from metrics import *
+import matplotlib.pyplot as plt
 def main():
-    root = "../BSDS500/BSDS500"
+    root = "BSR/BSDS500"
 
     data = load_bsds500(root)
 
@@ -21,11 +22,12 @@ def main():
 
     edge_ratios = []
 
+    rng = np.random.default_rng(seed=42)
+    denoised_images_all = {}
     # for i in tqdm(range(1)):
     for i in tqdm(range(len(images))):
         original_image = images[i]
-        noisy_image = add_gaussian_noise(original_image, 0, 20, 1)
-
+        noisy_image = add_gaussian_noise(rng, original_image, 0, 20, 1)
         # haar = db1
         # sym{1,2,3} = db{1,2,3}
         denoised_images = {
@@ -51,15 +53,20 @@ def main():
             # "Wavelet (bior1.3)": multilevel_denoise(noisy_image, "bior1.3", "soft"),
             # "Wavelet (bior1.5)": multilevel_denoise(noisy_image, "bior1.5", "soft"),
         }
-
+        for key in denoised_images.keys():
+            if key not in denoised_images_all:
+                denoised_images_all[key] = []
+            denoised_images_all[key].append(denoised_images[key])
         original_edges = canny(original_image)
 
         edge_ratio = np.sum(original_edges == 255)/original_edges.size
         edge_ratios.append(edge_ratio)
 
         for (method, denoised_image) in denoised_images.items():
+            #ODS and OIS need to be calculated with the original image, canny is done inside of them
+            #Reason why is because ODS chooses accross thresholds
             denoised_edges = canny(denoised_image)
-
+            prec, recall = calculate_precision_recall(original_edges, denoised_edges)
             metrics = {
                 # Add other metrics here
                 "ACC": calculate_accuracy(original_edges, denoised_edges),
@@ -67,14 +74,22 @@ def main():
                 "MCC": mcc(original_edges, denoised_edges),
                 
             }
-
             for (metric, stat) in metrics.items():
                 key = (method, metric)
                 if key not in all_stats:
                     all_stats[key] = list()
                 all_stats[key].append(stat)
-
     avg_stats = { key: np.mean(l) for (key, l) in all_stats.items() }
+
+    #Calculate OIS for each algorithm
+    for algo in tqdm(denoised_images_all.keys()):
+        denoised_images_algo = denoised_images_all[algo]
+        ODS = calculate_ODS(images, denoised_images_algo, num_thresholds= 100)
+        OIS = calculate_OIS(images, denoised_images_algo, num_thresholds= 100)
+        avg_stats[(algo, "OIS")] = OIS
+        avg_stats[(algo, "ODS")] = ODS
+    #Calculate ODS for the whole image
+
 
     for ((method, metric), avg) in avg_stats.items():
         if metric == "MSE":

@@ -2,10 +2,11 @@ from Utils.load_utils import load_bsds500
 from noise import add_gaussian_noise
 from matplotlib import pyplot as plt
 from metrics import calculate_accuracy, psnr, mcc
-from wavelet_denoising_example import dwt2_denoise, multilevel_denoise
+from wavelet_denoising import multilevel_denoise
 from canny import canny
 import cv2
 import pywt
+import numpy as np
 
 def main():
     root = "../BSDS500/BSDS500"
@@ -22,12 +23,12 @@ def main():
     # others - 28, 30, 35, 41
     image = images[22]
 
-    noisy_image = add_gaussian_noise(image, 0, 20, 1)
+    rng = np.random.default_rng(seed=42)
+    noisy_image = add_gaussian_noise(rng, image, 0, 20, 1)
     # noisy_image = image
 
-    # filtered = dwt2_denoise(test_noise, "haar", "soft", 10)
-    wavelet_denoise = multilevel_denoise(noisy_image, "haar", "soft")
-    gaussian_denoise = cv2.GaussianBlur(noisy_image, (5,5), 2)
+    wavelet_denoise = multilevel_denoise(noisy_image, "sym9", "soft")
+    gaussian_denoise = cv2.GaussianBlur(noisy_image, (5,5), 0)
 
     cv2.imwrite("noisy-flowers.jpg", noisy_image)
     cv2.imwrite("wavelet-flowers.jpg", wavelet_denoise)

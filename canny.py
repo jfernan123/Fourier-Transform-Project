@@ -3,7 +3,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 # https://docs.opencv.org/4.x/da/d22/tutorial_py_canny.html
-def canny(image):
+def canny(image,):
     # https://stackoverflow.com/questions/4292249/automatic-calculation-of-low-and-high-thresholds-for-the-canny-operation-in-open
 
     # Old ideas, better than just 100 and 200
@@ -22,12 +22,17 @@ def canny(image):
     edges = cv2.Canny(image, threshold1=low, threshold2=high, L2gradient=True)
     return edges
 
-# img = cv2.imread("/home/jacob/courses/math663/butterfly.avif", cv2.IMREAD_GRAYSCALE)
-# assert img is not None, "Image not found"
+def main():
 
-# edges = canny(img)
+    img = cv2.imread("/home/jacob/courses/math663/butterfly.avif", cv2.IMREAD_GRAYSCALE)
+    assert img is not None, "Image not found"
 
-# fig, ax = plt.subplots()
-# ax.imshow(edges, cmap='gray')
-# ax.set_title("Canny")
-# plt.show()
+    edges = canny(img)
+
+    fig, ax = plt.subplots()
+    ax.imshow(edges, cmap='gray')
+    ax.set_title("Canny")
+    plt.show()
+
+if __name__ == '__main__':
+    main()

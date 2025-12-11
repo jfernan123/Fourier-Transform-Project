@@ -37,7 +37,7 @@ def load_images(image_path):
             print(image_path + f"{os.sep}{split}")
             data_paths = os.listdir(image_path + f"{os.sep}{split}")
 
-            for p in data_paths:
+            for p in sorted(data_paths):
                 if p.endswith(".db"):
                     continue
                 assert p.endswith(".jpg"), "Did not load a .jpg file"
@@ -51,19 +51,22 @@ def load_images(image_path):
             #Load test, train and val
     return data
 
-def load_bsds500(path):
+def load_bsds500(path, images_only = True):
     """
     Path to BSDS500 dataset
     """
     path = os.path.join(path, "data")
     ground_truth_path = os.path.join(path, "groundTruth")
-    # ground_truth_data = load_groundTruth(ground_truth_path)
+    if not images_only:
+        ground_truth_data = load_groundTruth(ground_truth_path)
     images_path = os.path.join(path, "images")
 
     img_data = load_images(images_path)
+    if images_only:
+        data = {"images": img_data}
+    else:
 
-    # data = {"images": img_data, "edges": ground_truth_data}
-    data = {"images": img_data}
+        data = {"images": img_data, "edges": ground_truth_data}
 
     return data
 
