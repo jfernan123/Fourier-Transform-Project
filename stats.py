@@ -36,7 +36,7 @@ def main():
             #"Classical Gaussian": cv2.GaussianBlur(noisy_image, (5,5), 0, 0),
             #"Classical Median": cv2.medianBlur(noisy_image, 5),
             #"Classical Bilateral": cv2.bilateralFilter(noisy_image, 9, 25, 25),
-            "Fourier Naive": fourier_denoise(noisy_image, 60, 50),
+            "Fourier Naive": fourier_denoise(noisy_image, 30, 50),
             "Fourier Gaussian": fourier_gaussian_filter(noisy_image, 1),
             "Fourier Wiener": fourier_wiener_denoise(noisy_image),
             #"Wavelet (haar)": multilevel_denoise(noisy_image, "haar", "soft"),
@@ -85,8 +85,7 @@ def main():
         avg_stats[(algo, "OIS")] = OIS
         avg_stats[(algo, "ODS")] = ODS
     #Calculate ODS for the whole image
-
-
+    
     for ((method, metric), avg) in avg_stats.items():
         if metric == "MSE":
             psnr = 20*math.log10(255)-10*math.log10(avg)

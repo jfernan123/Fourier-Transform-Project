@@ -24,7 +24,7 @@ def fourier_wiener_denoise(image, noise_var=None, smooth_psd_size=6, eps=1e-8):
             S_y[:h_c, -w_c:].ravel(),
             S_y[:h_c, :w_c].ravel()
         ])
-        noise_var = np.median(corners) #Try to estimate the noise
+        noise_var = np.mean(corners) #Try to estimate the noise
     S_n = noise_var
     #Clean signal with noise remove
     S_x_hat = np.maximum(S_y_smooth - S_n, 0.0)
