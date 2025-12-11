@@ -46,16 +46,6 @@ def sobels():
     plt.show()
 
 
-#    colour_image = cv2.imread('coloureagle.jpg')
-
-#    sobels = []
-#    fig, (ax1,ax2) = plt.subplots(1,2)
-#    ax1.imshow(colour_image)
-#    ax1.set_title('Colourized Eagle')
-#    ax2.imshow(image)
-#    ax2.set_title('Grayscale Eagle')
-#    plt.savefig("grayeagle.jpg",bbox_inches='tight',dpi=200)
-#    plt.show()
     ## iterating through kernel size
     sobels = []
     sobels_denoise = []
@@ -128,21 +118,23 @@ def sobels():
 
     fig, ((ax1,ax2,ax3),(ax4,ax5,ax6)) = plt.subplots(2,3)
     ax1.imshow(haars[0],cmap='gray')
-    ax1.set_title('Soft T = 30')
+    ax1.set_title('Soft T = 0.5')
     ax2.imshow(haars[1],cmap='gray')
-    ax2.set_title('Hard T = 30')
+    ax2.set_title('Hard T = 0.5')
     ax3.imshow(haars[2],cmap='gray')
-    ax3.set_title('Greater T = 30')
+    ax3.set_title('Greater T = 0.5')
     ax4.imshow(haars_denoise[0], cmap = 'gray')
-    ax4.set_title('Soft T = 30 noised')
+    ax4.set_title('Soft T = 0.5 noised')
     ax5.imshow(haars_denoise[1], cmap = 'gray')
-    ax5.set_title('Hard T = 30 noised')
+    ax5.set_title('Hard T = 0.5 noised')
     ax6.imshow(haars_denoise[2], cmap = 'gray')
-    ax6.set_title('Greater T = 30 on noised')
+    ax6.set_title('Greater T = 0.5 on noised')
 
     plt.tick_params(axis='both', which='minor', labelsize=12)
     plt.savefig('thresholdingcomparison.jpg',dpi=200)
     plt.show()
-    # orthogonal: coif, db, haar, sym
+
+if __name__ == "__main__":
+    sobels()
 
 
