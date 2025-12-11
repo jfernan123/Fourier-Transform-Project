@@ -1,6 +1,6 @@
 from Utils.load_utils import load_bsds500
 from noise import add_gaussian_noise
-from metrics import calculate_accuracy, psnr, mcc, mse, pratt_fom
+from metrics import *
 from wavelet_denoising import multilevel_denoise
 from noises.fourier.fourier_filter import fourier_denoise
 from noises.fourier.fourier_gauss import fourier_gaussian_filter
@@ -13,8 +13,9 @@ import math
 from tqdm import tqdm
 from metrics import *
 import matplotlib.pyplot as plt
+
 def main():
-    root = "BSR/BSDS500"
+    root = "../BSDS500/BSDS500"
 
     data = load_bsds500(root)
 
@@ -26,7 +27,6 @@ def main():
 
     rng = np.random.default_rng(seed=42)
     denoised_images_all = {}
-    # for i in tqdm(range(1)):
     for i in tqdm(range(len(images))):
         original_image = images[i]
         noisy_image = add_gaussian_noise(rng, original_image, 0, 20, 1)
@@ -36,14 +36,18 @@ def main():
             #"Classical Gaussian": cv2.GaussianBlur(noisy_image, (5,5), 0, 0),
             #"Classical Median": cv2.medianBlur(noisy_image, 5),
             #"Classical Bilateral": cv2.bilateralFilter(noisy_image, 9, 25, 25),
+            "Classical Gaussian": cv2.GaussianBlur(noisy_image, (5,5), 0),
+            "Classical Median": cv2.medianBlur(noisy_image, 5),
+            "Classical Bilateral": cv2.bilateralFilter(noisy_image, 9, 25, 25),
             "Fourier Naive": fourier_denoise(noisy_image, 30, 50),
             "Fourier Gaussian": fourier_gaussian_filter(noisy_image, 1),
             "Fourier Wiener": fourier_wiener_denoise(noisy_image),
-            #"Wavelet (haar)": multilevel_denoise(noisy_image, "haar", "soft"),
-            #"Wavelet (db4)": multilevel_denoise(noisy_image, "db4", "soft"),
-            #"Wavelet (sym9)": multilevel_denoise(noisy_image, "sym9", "soft"),
-            #"Wavelet (coif6)": multilevel_denoise(noisy_image, "coif6", "soft"),
+            "Wavelet (haar)": multilevel_denoise(noisy_image, "haar", "soft"),
+            "Wavelet (db4)": multilevel_denoise(noisy_image, "db4", "soft"),
+            "Wavelet (sym9)": multilevel_denoise(noisy_image, "sym9", "soft"),
+            "Wavelet (coif6)": multilevel_denoise(noisy_image, "coif6", "soft"),
         }
+
         for key in denoised_images.keys():
             if key not in denoised_images_all:
                 denoised_images_all[key] = []
@@ -68,8 +72,9 @@ def main():
                 "Recall": recall,
                 "ODS": 0,
                 "OIS": 0
-                            # "FOM": pratt_fom(original_edges, denoised_edges),
+                # "FOM": pratt_fom(original_edges, denoised_edges),
             }
+
             for (metric, stat) in metrics.items():
                 key = (method, metric)
                 if key not in all_stats:

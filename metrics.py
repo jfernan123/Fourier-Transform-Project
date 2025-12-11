@@ -136,7 +136,7 @@ def calculate_F_score(y_true,y_pred, threshold = 0):
 
 def main():
 
-    bsds_path = "BSR\BSDS500"
+    bsds_path = "../BSDS500/BSDS500"
 
     data = load_bsds500(bsds_path)
     images = data["images"]["train"]
