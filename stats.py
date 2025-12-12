@@ -15,7 +15,7 @@ from metrics import *
 import matplotlib.pyplot as plt
 
 def main():
-    root = "../BSDS500/BSDS500"
+    root = "BSDS500/BSDS500"
 
     data = load_bsds500(root)
 
