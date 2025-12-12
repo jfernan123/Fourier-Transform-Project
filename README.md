@@ -1,11 +1,18 @@
 # Fourier-Transform-Project
 
 1. Clone the [Berkeley Data Set](https://github.com/BIDS/BSDS500). Ensure it is one above the directory ours is in. 
-```
 
-```
+2. We recommend creating a new anaconda environment as there might be dependency conflicts.  The link to install conda is here [https://docs.conda.io/projects/conda/en/stable/user-guide/install/index.html]
+
+To create a conda environment a install all requirements needed: 
+
+```conda create -n fourier-env python=3.11
+
+pip install -r requirements.txt
+
 
 2. Ensure [Pywavelets](https://pywavelets.readthedocs.io/en/latest/install.html), [OpenCv](https://docs.opencv.org/4.x/db/dd1/tutorial_py_pip_install.html), [Scikit-Learn](https://scikit-learn.org/stable/install.html) [TQDM](https://pypi.org/project/tqdm/), [numpy](https://numpy.org/install/) and [matplotlib](https://matplotlib.org/stable/install/index.html) are installed. Please ensure latest versions
+
 
 
 
