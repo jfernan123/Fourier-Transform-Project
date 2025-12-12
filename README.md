@@ -6,9 +6,9 @@
 
 To create a conda environment a install all requirements needed: 
 
-conda create -n fourier-env python=3.11
+```conda create -n fourier-env python=3.11```
 
-pip install -r requirements.txt
+```pip install -r requirements.txt```
 
 
 2. Ensure [Pywavelets](https://pywavelets.readthedocs.io/en/latest/install.html), [OpenCv](https://docs.opencv.org/4.x/db/dd1/tutorial_py_pip_install.html), [Scikit-Learn](https://scikit-learn.org/stable/install.html) [TQDM](https://pypi.org/project/tqdm/), [numpy](https://numpy.org/install/) and [matplotlib](https://matplotlib.org/stable/install/index.html) are installed. Please ensure latest versions
@@ -18,6 +18,6 @@ pip install -r requirements.txt
 
 3. Run main.py, classical_methods.py, sobels.py and stats.py to see results. Please check the path follows your directory structure.
 
-python stats.py
+```python stats.py```
 
 The most important file here is stats.py, this file will display our results being computed. Might take 25 minutes to run as OIS and ODS metrics compute over a set of thresholds. If you want to quickkly check feel free to comment it out.
